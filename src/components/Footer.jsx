@@ -13,7 +13,7 @@ export default function Footer({ onNavigate, onStartQuiz }) {
               className="flex items-center gap-2.5 cursor-pointer bg-transparent border-none p-0 group"
             >
               <img
-                src="/logo.png"
+                src={`${import.meta.env.BASE_URL}logo.png`}
                 alt="CarSuggest Logo"
                 className="h-10 w-auto rounded-lg bg-white p-1 transition-transform group-hover:scale-105"
               />

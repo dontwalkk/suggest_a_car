@@ -69,7 +69,7 @@ export default function Hero({ onStart, onNavigate }) {
         {/* Logo */}
         <div className="mb-6 flex justify-center">
           <img 
-            src="/logo.png" 
+            src={`${import.meta.env.BASE_URL}logo.png`} 
             alt="Suggest A Car Logo" 
             className="h-28 md:h-36 w-auto rounded-2xl bg-white p-3 shadow-[0_0_40px_rgba(255,255,255,0.1)]" 
           />
