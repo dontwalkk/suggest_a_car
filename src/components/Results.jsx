@@ -58,13 +58,13 @@ export default function Results({ recommendations, onRestart }) {
   };
 
   return (
-    <section id="results-section" className="min-h-screen py-16 px-4 relative">
+    <section id="results-section" className="min-h-screen py-16 px-4 relative overflow-hidden w-full">
       {/* Background accents */}
       <div className="absolute top-20 left-1/4 w-[400px] h-[400px] rounded-full bg-[var(--color-primary)]/8 blur-[150px] pointer-events-none" />
       <div className="absolute bottom-20 right-1/4 w-[300px] h-[300px] rounded-full bg-[var(--color-accent)]/8 blur-[120px] pointer-events-none" />
 
       <div
-        className={`relative z-10 max-w-5xl mx-auto transition-all duration-700 ${
+        className={`relative z-10 max-w-5xl mx-auto w-full transition-all duration-700 ${
           visible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-12"
         }`}
       >
@@ -76,13 +76,13 @@ export default function Results({ recommendations, onRestart }) {
             </svg>
             Analysis Complete
           </div>
-          <h2 className="text-4xl md:text-5xl font-black text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white mb-4">
             Your Top{" "}
             <span className="bg-gradient-to-r from-[var(--color-primary-light)] to-[var(--color-accent)] bg-clip-text text-transparent">
               Matches
             </span>
           </h2>
-          <p className="text-white/50 text-lg max-w-lg mx-auto">
+          <p className="text-white/50 text-base sm:text-lg max-w-lg mx-auto">
             Based on your preferences, here are the cars we think you'll love most.
           </p>
         </div>
@@ -128,7 +128,7 @@ export default function Results({ recommendations, onRestart }) {
               </div>
 
               {/* Content */}
-              <div className="p-6">
+              <div className="p-5 sm:p-6">
                 <div className="flex flex-wrap gap-2 mb-3">
                   {car.tags.map((tag) => (
                     <span
@@ -147,18 +147,18 @@ export default function Results({ recommendations, onRestart }) {
                 <p className="text-white/50 text-sm leading-relaxed mb-4">{car.description}</p>
 
                 {/* Specs */}
-                <div className="grid grid-cols-3 gap-3 mb-5">
-                  <div className="text-center p-3 rounded-xl bg-white/5 border border-white/5">
-                    <p className="text-white font-bold text-sm">{car.specs.hp} HP</p>
-                    <p className="text-white/30 text-xs">Power</p>
+                <div className="grid grid-cols-3 gap-2 sm:gap-3 mb-5">
+                  <div className="text-center p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/5 min-w-0">
+                    <p className="text-white font-bold text-xs sm:text-sm truncate">{car.specs.hp} HP</p>
+                    <p className="text-white/30 text-[11px] sm:text-xs">Power</p>
                   </div>
-                  <div className="text-center p-3 rounded-xl bg-white/5 border border-white/5">
-                    <p className="text-white font-bold text-sm">{car.specs.mpg}</p>
-                    <p className="text-white/30 text-xs">Efficiency</p>
+                  <div className="text-center p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/5 min-w-0">
+                    <p className="text-white font-bold text-xs sm:text-sm truncate" title={car.specs.mpg}>{car.specs.mpg}</p>
+                    <p className="text-white/30 text-[11px] sm:text-xs">Efficiency</p>
                   </div>
-                  <div className="text-center p-3 rounded-xl bg-white/5 border border-white/5">
-                    <p className="text-white font-bold text-sm">{car.specs.accel}</p>
-                    <p className="text-white/30 text-xs">Speed</p>
+                  <div className="text-center p-2.5 sm:p-3 rounded-xl bg-white/5 border border-white/5 min-w-0">
+                    <p className="text-white font-bold text-xs sm:text-sm truncate" title={car.specs.accel}>{car.specs.accel}</p>
+                    <p className="text-white/30 text-[11px] sm:text-xs">Speed</p>
                   </div>
                 </div>
 
@@ -188,10 +188,10 @@ export default function Results({ recommendations, onRestart }) {
         {/* Other suggestions */}
         {others.length > 0 && (
           <div className="mb-16">
-            <h3 className="text-xl font-bold text-white/60 mb-6 flex items-center gap-3">
-              <div className="h-px flex-1 bg-white/10" />
-              Also Worth Considering
-              <div className="h-px flex-1 bg-white/10" />
+            <h3 className="text-lg sm:text-xl font-bold text-white/60 mb-6 flex items-center gap-2 sm:gap-3">
+              <div className="h-px flex-1 bg-white/10 min-w-3" />
+              <span className="shrink-0 text-center">Also Worth Considering</span>
+              <div className="h-px flex-1 bg-white/10 min-w-3" />
             </h3>
 
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">

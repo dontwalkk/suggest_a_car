@@ -22,7 +22,7 @@ export default function QuizStep({ questionData, stepIndex, totalSteps, onAnswer
   return (
     <section
       id={`quiz-step-${questionData.id}`}
-      className="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative"
+      className="min-h-screen flex flex-col items-center justify-center px-4 py-12 relative overflow-hidden w-full"
     >
       {/* Background glow */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[var(--color-primary)]/8 blur-[120px] pointer-events-none" />

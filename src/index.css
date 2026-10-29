@@ -21,15 +21,19 @@
     box-sizing: border-box;
   }
 
+  html,
   body {
     font-family: var(--font-sans);
     background-color: var(--color-surface);
     color: #e2e8f0;
     min-height: 100vh;
     overflow-x: hidden;
+    max-width: 100%;
   }
 
   #root {
     min-height: 100vh;
+    overflow-x: hidden;
+    max-width: 100%;
   }
 }

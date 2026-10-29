@@ -130,7 +130,7 @@ export default function App() {
     phase === PHASES.CONTACT;
 
   return (
-    <div className="min-h-screen bg-[var(--color-surface)] flex flex-col justify-between">
+    <div className="min-h-screen bg-[var(--color-surface)] flex flex-col justify-between overflow-x-hidden w-full">
       {/* Top Navbar */}
       <Navbar
         phase={phase}
@@ -142,7 +142,7 @@ export default function App() {
       />
 
       {/* Main content */}
-      <main className={`flex-1 ${phase === PHASES.HERO ? "" : "pt-16"}`}>
+      <main className={`flex-1 w-full overflow-x-hidden ${phase === PHASES.HERO ? "" : "pt-16"}`}>
         {phase === PHASES.HERO && (
           <Hero onStart={handleStart} onNavigate={handleNavigate} />
         )}
