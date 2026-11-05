@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useEffect, useRef } from "react";
 import Hero from "./components/Hero";
 import HomeContent from "./components/HomeContent";
 import QuizStep from "./components/QuizStep";
@@ -31,22 +31,26 @@ function parseInitialRoute() {
   const [route, queryString] = rawHash.split("?");
   const cleanRoute = (route || "").toLowerCase();
 
-  if (cleanRoute === "results" && queryString) {
-    const params = new URLSearchParams(queryString);
-    const parsedAnswers = {};
-    if (params.get("budget")) parsedAnswers.budget = Number(params.get("budget"));
-    if (params.get("usage")) parsedAnswers.usage = params.get("usage");
-    if (params.get("terrain")) parsedAnswers.terrain = params.get("terrain");
-    if (params.get("fuelType") || params.get("fueltype")) {
-      parsedAnswers.fuelType = params.get("fuelType") || params.get("fueltype");
-    }
-    if (params.get("priority")) parsedAnswers.priority = params.get("priority");
-    if (params.get("seats")) parsedAnswers.seats = params.get("seats");
+  if (cleanRoute === "results") {
+    if (queryString) {
+      const params = new URLSearchParams(queryString);
+      const parsedAnswers = {};
+      if (params.get("budget")) parsedAnswers.budget = Number(params.get("budget"));
+      if (params.get("usage")) parsedAnswers.usage = params.get("usage");
+      if (params.get("terrain")) parsedAnswers.terrain = params.get("terrain");
+      if (params.get("fuelType") || params.get("fueltype")) {
+        parsedAnswers.fuelType = params.get("fuelType") || params.get("fueltype");
+      }
+      if (params.get("priority")) parsedAnswers.priority = params.get("priority");
+      if (params.get("seats")) parsedAnswers.seats = params.get("seats");
 
-    if (Object.keys(parsedAnswers).length > 0) {
-      const recs = getRecommendations(parsedAnswers);
-      return { phase: PHASES.RESULTS, answers: parsedAnswers, recommendations: recs };
+      if (Object.keys(parsedAnswers).length > 0) {
+        const recs = getRecommendations(parsedAnswers);
+        return { phase: PHASES.RESULTS, answers: parsedAnswers, recommendations: recs };
+      }
     }
+    // #/results without query parameters (user finished quiz or navigated here)
+    return { phase: PHASES.RESULTS, answers: null, recommendations: null };
   }
 
   if (cleanRoute === "about") return { phase: PHASES.ABOUT, answers: {}, recommendations: [] };
@@ -63,20 +67,46 @@ function parseInitialRoute() {
 
 export default function App() {
   const [initial] = useState(() => parseInitialRoute());
-  const [phase, setPhase] = useState(initial.phase);
+  const [phase, setPhase] = useState(() => {
+    // If opened directly at #/results with no query parameters, go to hero
+    if (
+      initial.phase === PHASES.RESULTS &&
+      (!initial.recommendations || initial.recommendations.length === 0)
+    ) {
+      return PHASES.HERO;
+    }
+    return initial.phase;
+  });
   const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState(initial.answers);
-  const [recommendations, setRecommendations] = useState(initial.recommendations);
+  const [answers, setAnswers] = useState(initial.answers || {});
+  const [recommendations, setRecommendations] = useState(initial.recommendations || []);
   const [homeListingCar, setHomeListingCar] = useState(null);
+
+  const recommendationsRef = useRef(recommendations);
+
+  useEffect(() => {
+    recommendationsRef.current = recommendations;
+  }, [recommendations]);
 
   // Sync hash changes from browser back/forward buttons
   useEffect(() => {
     const handleHashChange = () => {
       const { phase: nextPhase, answers: nextAnswers, recommendations: nextRecs } = parseInitialRoute();
-      if (nextPhase === PHASES.RESULTS && nextRecs.length > 0) {
-        setAnswers(nextAnswers);
-        setRecommendations(nextRecs);
-        setPhase(PHASES.RESULTS);
+
+      if (nextPhase === PHASES.RESULTS) {
+        if (nextRecs && nextRecs.length > 0) {
+          // Came from a link with parameters (or share link)
+          setAnswers(nextAnswers);
+          setRecommendations(nextRecs);
+          recommendationsRef.current = nextRecs;
+          setPhase(PHASES.RESULTS);
+        } else if (recommendationsRef.current && recommendationsRef.current.length > 0) {
+          // Just completed the quiz — keep existing results
+          setPhase(PHASES.RESULTS);
+        } else {
+          // No recommendations available, fallback to hero
+          setPhase(PHASES.HERO);
+        }
       } else {
         setPhase(nextPhase);
       }
@@ -115,12 +145,13 @@ export default function App() {
       if (currentStep < questions.length - 1) {
         setCurrentStep((prev) => prev + 1);
       } else {
-        // All questions answered — show loading then results
+        // All questions answered — show loading screen, then results
         setPhase(PHASES.LOADING);
         window.scrollTo({ top: 0, behavior: "smooth" });
 
         setTimeout(() => {
           const results = getRecommendations(newAnswers);
+          recommendationsRef.current = results;
           setRecommendations(results);
           setPhase(PHASES.RESULTS);
           window.location.hash = "#/results";
@@ -140,6 +171,7 @@ export default function App() {
   }, [currentStep, handleNavigate]);
 
   const handleRestart = useCallback(() => {
+    recommendationsRef.current = [];
     setPhase(PHASES.HERO);
     setCurrentStep(0);
     setAnswers({});

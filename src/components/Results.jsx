@@ -87,7 +87,7 @@ function getLifestyleMatchReasons(car, answers = {}) {
   return reasons.slice(0, 3);
 }
 
-export default function Results({ recommendations, answers = {}, onRestart }) {
+export default function Results({ recommendations = [], answers = {}, onRestart }) {
   const [visible, setVisible] = useState(false);
   const [listingCar, setListingCar] = useState(null);
   const [isComparing, setIsComparing] = useState(false);
