@@ -4,11 +4,47 @@
     <meta charset="UTF-8" />
     <link rel="icon" type="image/svg+xml" href="/suggest_a_car/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="description" content="AI-powered car suggestion quiz to help you find your perfect car match based on your lifestyle, budget, and driving preferences." />
-    <title>Suggest A Car - Find Your Perfect Match</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <!-- Primary Meta Tags -->
+    <title>Suggest A Car - Unbiased Lifestyle-First Car Matching & Guides</title>
+    <meta name="title" content="Suggest A Car - Unbiased Lifestyle-First Car Matching & Guides" />
+    <meta
+      name="description"
+      content="Find your perfect car in 60 seconds based on your daily commute, budget, powertrain preference, and lifestyle needs. 100% free, unbiased, and with zero dealership sponsorship."
+    />
+    <meta
+      name="keywords"
+      content="car finder, car quiz, what car should I buy, car match, best commuter car, family SUV, hybrid vs EV, car recommendation engine"
+    />
+    <meta name="author" content="Suggest A Car" />
+    <meta name="robots" content="index, follow" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Suggest A Car - Unbiased Lifestyle-First Car Matching" />
+    <meta
+      property="og:description"
+      content="Answer 6 quick questions to discover your ideal vehicle match with transparent pros, cons, and real local market pricing."
+    />
+    <meta property="og:image" content="/suggest_a_car/logo.png" />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:title" content="Suggest A Car - Unbiased Lifestyle-First Car Matching" />
+    <meta
+      property="twitter:description"
+      content="Answer 6 quick questions to discover your ideal vehicle match with transparent pros, cons, and real local market pricing."
+    />
+    <meta property="twitter:image" content="/logo.png" />
+
+    <!-- Typography -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
     <!-- Google AdSense -->
     <meta name="google-adsense-account" content="ca-pub-5420398402159551" />
     <script
@@ -16,8 +52,60 @@
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-5420398402159551"
       crossorigin="anonymous"
     ></script>
-    <script type="module" crossorigin src="/suggest_a_car/assets/index-DnsPIGMj.js"></script>
-    <link rel="stylesheet" crossorigin href="/suggest_a_car/assets/index-wU4Y1uVA.css">
+
+    <!-- Schema.org Structured Data (WebApplication & Automotive Decision Resource) -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@graph": [
+          {
+            "@type": "WebApplication",
+            "@id": "https://suggestacar.netlify.app/#app",
+            "name": "Suggest A Car",
+            "url": "https://suggestacar.netlify.app/",
+            "applicationCategory": "LifestyleApplication",
+            "operatingSystem": "All",
+            "offers": {
+              "@type": "Offer",
+              "price": "0",
+              "priceCurrency": "USD"
+            },
+            "description": "An interactive, lifestyle-first car matching engine that pairs drivers with vehicles tailored to their commute, family size, budget, and driving preferences."
+          },
+          {
+            "@type": "FAQPage",
+            "mainEntity": [
+              {
+                "@type": "Question",
+                "name": "How does CarSuggest make unbiased recommendations?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Unlike traditional automotive review portals that depend on sponsored dealership placements, our scoring algorithm evaluates vehicles strictly on user lifestyle signals: total cost of ownership, reliability ratings, real fuel economy, and passenger space."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "Is CarSuggest completely free, and is my data tracked?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "Yes, 100% free. We never ask for your email address, phone number, or personal details before showing results. You can use the quiz and explore all data anonymously."
+                }
+              },
+              {
+                "@type": "Question",
+                "name": "How are the local inventory listings sourced?",
+                "acceptedAnswer": {
+                  "@type": "Answer",
+                  "text": "When you click 'Find Real Listings', we dynamically generate localized search links across verified nationwide auto marketplaces—including CarMax, Cars.com, Autotrader, and CarGurus—using your ZIP code and model specifics."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    </script>
+    <script type="module" crossorigin src="/suggest_a_car/assets/index-4xR1sv3k.js"></script>
+    <link rel="stylesheet" crossorigin href="/suggest_a_car/assets/index-IflooQ1j.css">
   </head>
   <body class="bg-[#0b0f19] text-white antialiased">
     <div id="root"></div>
