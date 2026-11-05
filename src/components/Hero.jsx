@@ -120,6 +120,18 @@ export default function Hero({ onStart, onNavigate }) {
               How It Works
             </button>
           )}
+
+          <a
+            href="#explore-catalog"
+            onClick={(e) => {
+              e.preventDefault();
+              const el = document.getElementById("explore-catalog");
+              if (el) el.scrollIntoView({ behavior: "smooth" });
+            }}
+            className="inline-flex items-center gap-1.5 px-5 py-5 rounded-2xl text-white/70 hover:text-white text-sm font-medium transition-colors"
+          >
+            Browse Models & Guides ↓
+          </a>
         </div>
 
         {/* Trust indicators */}

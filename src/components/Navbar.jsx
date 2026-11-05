@@ -20,6 +20,20 @@ export default function Navbar({
     onStartQuiz();
   };
 
+  const handleExploreClick = () => {
+    setMobileMenuOpen(false);
+    if (phase !== "hero") {
+      onNavigate("hero");
+      setTimeout(() => {
+        const el = document.getElementById("explore-catalog");
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      }, 150);
+    } else {
+      const el = document.getElementById("explore-catalog");
+      if (el) el.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   const isQuiz = phase === "quiz";
   const isLoading = phase === "loading";
 
@@ -81,6 +95,12 @@ export default function Navbar({
               }`}
             >
               Home
+            </button>
+            <button
+              onClick={handleExploreClick}
+              className="px-3 py-1.5 rounded-lg text-sm font-medium transition-colors cursor-pointer bg-transparent border-none text-white/60 hover:text-white"
+            >
+              Explore Models
             </button>
             <button
               onClick={() => handleNavClick("about")}
@@ -172,6 +192,12 @@ export default function Navbar({
             }`}
           >
             Home
+          </button>
+          <button
+            onClick={handleExploreClick}
+            className="w-full text-left px-3 py-2 rounded-lg text-sm font-medium text-white/70 hover:text-white"
+          >
+            Explore Models
           </button>
           <button
             onClick={() => handleNavClick("about")}

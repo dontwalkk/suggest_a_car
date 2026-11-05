@@ -1,11 +1,13 @@
 import { useState, useCallback, useEffect } from "react";
 import Hero from "./components/Hero";
+import HomeContent from "./components/HomeContent";
 import QuizStep from "./components/QuizStep";
 import LoadingScreen from "./components/LoadingScreen";
 import Results from "./components/Results";
 import AboutPage from "./components/AboutPage";
 import PrivacyPolicyPage from "./components/PrivacyPolicyPage";
 import ContactUsPage from "./components/ContactUsPage";
+import ListingSearch from "./components/ListingSearch";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import questions from "./data/questions";
@@ -21,43 +23,69 @@ const PHASES = {
   CONTACT: "contact",
 };
 
-function getPhaseFromHash() {
-  if (typeof window === "undefined") return PHASES.HERO;
-  const hash = window.location.hash.toLowerCase().replace(/^#\/?/, "");
-  if (hash === "about") return PHASES.ABOUT;
-  if (hash === "privacy" || hash === "privacy-policy" || hash === "privacypolicy") return PHASES.PRIVACY;
-  if (hash === "contact" || hash === "contact-us" || hash === "contactus") return PHASES.CONTACT;
-  if (hash === "quiz") return PHASES.QUIZ;
-  return PHASES.HERO;
+function parseInitialRoute() {
+  if (typeof window === "undefined") {
+    return { phase: PHASES.HERO, answers: {}, recommendations: [] };
+  }
+  const rawHash = window.location.hash.replace(/^#\/?/, "");
+  const [route, queryString] = rawHash.split("?");
+  const cleanRoute = (route || "").toLowerCase();
+
+  if (cleanRoute === "results" && queryString) {
+    const params = new URLSearchParams(queryString);
+    const parsedAnswers = {};
+    if (params.get("budget")) parsedAnswers.budget = Number(params.get("budget"));
+    if (params.get("usage")) parsedAnswers.usage = params.get("usage");
+    if (params.get("terrain")) parsedAnswers.terrain = params.get("terrain");
+    if (params.get("fuelType") || params.get("fueltype")) {
+      parsedAnswers.fuelType = params.get("fuelType") || params.get("fueltype");
+    }
+    if (params.get("priority")) parsedAnswers.priority = params.get("priority");
+    if (params.get("seats")) parsedAnswers.seats = params.get("seats");
+
+    if (Object.keys(parsedAnswers).length > 0) {
+      const recs = getRecommendations(parsedAnswers);
+      return { phase: PHASES.RESULTS, answers: parsedAnswers, recommendations: recs };
+    }
+  }
+
+  if (cleanRoute === "about") return { phase: PHASES.ABOUT, answers: {}, recommendations: [] };
+  if (cleanRoute === "privacy" || cleanRoute === "privacy-policy" || cleanRoute === "privacypolicy") {
+    return { phase: PHASES.PRIVACY, answers: {}, recommendations: [] };
+  }
+  if (cleanRoute === "contact" || cleanRoute === "contact-us" || cleanRoute === "contactus") {
+    return { phase: PHASES.CONTACT, answers: {}, recommendations: [] };
+  }
+  if (cleanRoute === "quiz") return { phase: PHASES.QUIZ, answers: {}, recommendations: [] };
+
+  return { phase: PHASES.HERO, answers: {}, recommendations: [] };
 }
 
 export default function App() {
-  const [phase, setPhase] = useState(() => getPhaseFromHash());
+  const [initial] = useState(() => parseInitialRoute());
+  const [phase, setPhase] = useState(initial.phase);
   const [currentStep, setCurrentStep] = useState(0);
-  const [answers, setAnswers] = useState({});
-  const [recommendations, setRecommendations] = useState([]);
+  const [answers, setAnswers] = useState(initial.answers);
+  const [recommendations, setRecommendations] = useState(initial.recommendations);
+  const [homeListingCar, setHomeListingCar] = useState(null);
 
   // Sync hash changes from browser back/forward buttons
   useEffect(() => {
     const handleHashChange = () => {
-      const next = getPhaseFromHash();
-      // If user presses back/forward to about/privacy/contact/hero
-      if (
-        next === PHASES.ABOUT ||
-        next === PHASES.PRIVACY ||
-        next === PHASES.CONTACT
-      ) {
-        setPhase(next);
-        window.scrollTo({ top: 0, behavior: "smooth" });
-      } else if (next === PHASES.HERO && phase !== PHASES.QUIZ && phase !== PHASES.LOADING) {
-        setPhase(PHASES.HERO);
-        window.scrollTo({ top: 0, behavior: "smooth" });
+      const { phase: nextPhase, answers: nextAnswers, recommendations: nextRecs } = parseInitialRoute();
+      if (nextPhase === PHASES.RESULTS && nextRecs.length > 0) {
+        setAnswers(nextAnswers);
+        setRecommendations(nextRecs);
+        setPhase(PHASES.RESULTS);
+      } else {
+        setPhase(nextPhase);
       }
+      window.scrollTo({ top: 0, behavior: "smooth" });
     };
 
     window.addEventListener("hashchange", handleHashChange);
     return () => window.removeEventListener("hashchange", handleHashChange);
-  }, [phase]);
+  }, []);
 
   const handleNavigate = useCallback((targetPhase) => {
     setPhase(targetPhase);
@@ -144,7 +172,15 @@ export default function App() {
       {/* Main content */}
       <main className={`flex-1 w-full overflow-x-hidden ${phase === PHASES.HERO ? "" : "pt-16"}`}>
         {phase === PHASES.HERO && (
-          <Hero onStart={handleStart} onNavigate={handleNavigate} />
+          <>
+            <Hero onStart={handleStart} onNavigate={handleNavigate} />
+            <div id="explore-catalog">
+              <HomeContent
+                onStartQuiz={handleStart}
+                onFindListings={(car) => setHomeListingCar(car)}
+              />
+            </div>
+          </>
         )}
 
         {phase === PHASES.ABOUT && (
@@ -174,10 +210,16 @@ export default function App() {
         {phase === PHASES.RESULTS && (
           <Results
             recommendations={recommendations}
+            answers={answers}
             onRestart={handleRestart}
           />
         )}
       </main>
+
+      {/* Home listing modal if opened from catalog */}
+      {homeListingCar && (
+        <ListingSearch car={homeListingCar} onClose={() => setHomeListingCar(null)} />
+      )}
 
       {/* Footer */}
       {showFooter && (

@@ -46,6 +46,21 @@ export default function Footer({ onNavigate, onStartQuiz }) {
               <li>
                 <button
                   type="button"
+                  onClick={() => {
+                    onNavigate("hero");
+                    setTimeout(() => {
+                      const el = document.getElementById("explore-catalog");
+                      if (el) el.scrollIntoView({ behavior: "smooth" });
+                    }, 150);
+                  }}
+                  className="hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0"
+                >
+                  Explore Models & Guides
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
                   onClick={onStartQuiz}
                   className="hover:text-white transition-colors cursor-pointer bg-transparent border-none p-0 text-indigo-400 font-semibold"
                 >

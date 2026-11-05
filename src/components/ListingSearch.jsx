@@ -60,9 +60,6 @@ export default function ListingSearch({ car, onClose }) {
   // e.g. toyota-camry, bmw-3_series, chevrolet-silverado_1500
   const modelSlugCars = modelSlug.replace(/-/g, "_");
 
-  // Full name slug for CarGurus human-readable link
-  const fullNameSlug = `${makeSlug}-${modelSlug}`;
-
   // Helper to generate dynamic URLs based on the car and user's location
   const getLinks = () => {
     const zip = encodeURIComponent(postalCode);

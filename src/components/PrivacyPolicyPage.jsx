@@ -9,7 +9,7 @@ export default function PrivacyPolicyPage() {
     { id: "how-we-use-info", label: "3. How We Use Information" },
     { id: "what-we-dont-do", label: "4. What We Never Do" },
     { id: "third-parties", label: "5. Third Parties & External Links" },
-    { id: "cookies-storage", label: "6. Cookies & Local Storage" },
+    { id: "cookies-storage", label: "6. Cookies & Advertising Disclosures" },
     { id: "data-security", label: "7. Data Security & Retention" },
     { id: "user-rights", label: "8. Your Rights (CCPA/GDPR)" },
     { id: "children", label: "9. Children's Privacy" },
@@ -204,14 +204,66 @@ export default function PrivacyPolicyPage() {
             <section id="cookies-storage" className="scroll-mt-24 p-6 sm:p-8 rounded-2xl bg-white/[0.02] border border-white/10">
               <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-3">
                 <span className="w-2 h-2 rounded-full bg-indigo-400" />
-                6. Cookies & Local Storage
+                6. Cookies & Google AdSense Advertising Disclosures
               </h2>
-              <p className="text-white/70 mb-3">
-                CarSuggest may utilize browser <code className="bg-white/10 px-1.5 py-0.5 rounded text-xs text-white">localStorage</code> or session storage exclusively for client-side state maintenance (such as remembering your active quiz step or temporary ZIP code preference during your session).
-              </p>
-              <p className="text-white/70">
-                We do not deploy third-party advertising tracking cookies or cross-site tracking pixels (such as Facebook Pixel or cross-domain retargeting beacons). You can clear your browser storage at any time via your browser settings.
-              </p>
+              <div className="space-y-4 text-white/70">
+                <p>
+                  CarSuggest utilizes client-side storage technologies to deliver our services, analyze site usage, and support advertising operations:
+                </p>
+
+                <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-2">
+                  <h3 className="font-semibold text-white">A. Essential Local Storage</h3>
+                  <p>
+                    We use browser <code className="bg-white/10 px-1.5 py-0.5 rounded text-xs text-white">localStorage</code> and session storage exclusively for basic site functionality—such as saving your active quiz step or remembering your temporary postal code while you compare vehicles. These entries contain no personally identifiable information (PII).
+                  </p>
+                </div>
+
+                <div className="p-4 rounded-xl bg-white/[0.02] border border-white/5 space-y-3">
+                  <h3 className="font-semibold text-white">B. Google AdSense & Third-Party Advertising Cookies</h3>
+                  <p>
+                    We partner with <strong>Google AdSense</strong> to display advertisements across certain pages of our website. Google and other third-party vendors require the following disclosures:
+                  </p>
+                  <ul className="list-disc list-inside space-y-1.5 pl-2 text-xs sm:text-sm">
+                    <li>
+                      Third-party vendors, including Google, use cookies to serve ads based on a user's prior visits to CarSuggest or other websites across the internet.
+                    </li>
+                    <li>
+                      Google's use of advertising cookies enables it and its partners to serve personalized and non-personalized advertisements to users based on their navigation history.
+                    </li>
+                    <li>
+                      Users may opt out of personalized advertising by visiting Google's{" "}
+                      <a
+                        href="https://www.google.com/settings/ads"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-indigo-400 underline hover:text-indigo-300"
+                      >
+                        Ads Settings
+                      </a>{" "}
+                      or via the Network Advertising Initiative at{" "}
+                      <a
+                        href="https://www.aboutads.info/choices/"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-indigo-400 underline hover:text-indigo-300"
+                      >
+                        www.aboutads.info
+                      </a>.
+                    </li>
+                    <li>
+                      To learn more about how Google processes data when you use our website, please visit{" "}
+                      <a
+                        href="https://policies.google.com/technologies/partner-sites"
+                        target="_blank"
+                        rel="noreferrer"
+                        className="text-indigo-400 underline hover:text-indigo-300"
+                      >
+                        How Google uses information from sites or apps that use our services
+                      </a>.
+                    </li>
+                  </ul>
+                </div>
+              </div>
             </section>
 
             {/* Section 7 */}
